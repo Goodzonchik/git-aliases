@@ -1,7 +1,11 @@
 # git-aliases
 
+```bash
+git config --global alias.cm 'checkout master'         # Переключение на master
+
+git cm # Чекаут в master
 ```
-git config --global alias.m 'checkout master'         # Переключение на master
+```
 git config --global alias.c checkout                  # Общий checkout
 git config --global alias.b 'checkout -b'             # Создание ветки
 git config --global alias.r 'rebase -i'               # Интерактивный rebase
