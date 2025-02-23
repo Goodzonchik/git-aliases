@@ -1,4 +1,4 @@
-# git-aliases
+# Git alias
 
 ### checkout to master
 ```bash
