@@ -2,10 +2,13 @@
 
 ## Git checkout
 
+### checkout to master
 ```bash
-git config --global alias.cm 'checkout master'         # Переключение на master
+# set alias
+git config --global alias.cm 'checkout master'
 
-git cm # Чекаут в master
+# using
+git cm
 ```
 
 ```bash
