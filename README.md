@@ -1,4 +1,4 @@
-# Git alias
+# Git favorite alias
 
 ### checkout to master
 ```bash
