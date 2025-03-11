@@ -1,6 +1,6 @@
 # Git favorite alias
 
-You can run script `./git-config.sh` for set `user.name`, `user.email` and set aliases for base command.
+You can run script `git-config.sh` for set `user.name`, `user.email` and set aliases for base command.
 
 If you only need some commands, you can copy them from the text below and run them manually.
 
