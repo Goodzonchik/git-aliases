@@ -1,5 +1,28 @@
 #!/bin/bash
 
+get_user_name() {
+    read -p "Write user name: " user_name
+    if [[ -z "$user_name" ]]; then
+        echo "Error: User name is empty"
+        get_user_name
+    fi
+}
+
+get_user_email() {
+    read -p "Write user email: " user_email
+    if [[ -z "$user_email" ]]; then
+        echo "Error: User email is empty"
+        get_user_email
+    fi
+}
+
+get_user_name
+get_user_email
+
+git config --global user.name "$user_name"
+git config --global user.email "$user_email"
+
+
 # Define aliases here with ":" separator
 ALIASES=(
 "cm:checkout master"
@@ -32,8 +55,14 @@ for ALIAS in "${ALIASES[@]}"; do
     fi
 done
 
-# show current aliases
-    echo "____________________
+
+# show updated configuration
+user_name=$(git config user.name)
+user_mail=$(git config user.email)
+    echo "_________ You configuration ___________
+
+name: $user_name
+email: $user_mail
 
 ALIAS LIST:"
     git config --get-regexp alias
