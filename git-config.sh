@@ -40,9 +40,9 @@ for ALIAS in "${ALIASES[@]}"; do
 
     if [ -n "$EXISTING_ALIAS" ]; then
         if [ "$EXISTING_ALIAS" != "$alias_value" ]; then
-            echo "Alias exist with value '$EXISTING_ALIAS'. Update alias to '$alias_value'? (y/n)"
+            echo "Alias exist with value '$EXISTING_ALIAS'. Update alias to '$alias_value'? (confirm/n)"
             read -r REPLACE
-            if [ "$REPLACE" == "y" ]; then
+            if [ "$REPLACE" == "confirm" ]; then
                 git config --global alias.$alias_key "$alias_value"
                 echo "Alias '$alias_key' updated."
             else
