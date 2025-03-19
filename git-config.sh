@@ -1,26 +1,40 @@
 #!/bin/bash
 
-get_user_name() {
-    read -p "Write user name: " user_name
-    if [[ -z "$user_name" ]]; then
-        echo "Error: User name is empty"
-        get_user_name
-    fi
-}
+current_user=$(git config user.name)
 
-get_user_email() {
-    read -p "Write user email: " user_email
-    if [[ -z "$user_email" ]]; then
-        echo "Error: User email is empty"
-        get_user_email
-    fi
-}
+if [ -z "$current_user" ]; then
+    echo "Git username is not set."
+else
+    echo "Current username is: $current_user"
+fi
 
-get_user_name
-get_user_email
+read -p "Do you want to change the git username? (confirm/n): " answer
 
-git config --global user.name "$user_name"
-git config --global user.email "$user_email"
+if [ "$answer" == "confirm" ]; then
+    read -p "Write new username: " new_user
+    git config --global user.name "$new_user"
+    echo "Git username successfully changed to: $new_user"
+else
+    echo "Git username remains unchanged."
+fi
+
+current_email=$(git config user.email)
+
+if [ -z "$current_email" ]; then
+    echo "Git email is not set."
+else
+    echo "Current email is: $current_email"
+fi
+
+read -p "Do you want to change the git email? (confirm/n): " answer_email
+
+if [ "$answer_email" == "confirm" ]; then
+    read -p "Write new email: " new_email
+    git config --global user.email "$new_email"
+    echo "Git email successfully changed to: $new_email"
+else
+    echo "Git email remains unchanged."
+fi
 
 
 # Define aliases here with ":" separator
