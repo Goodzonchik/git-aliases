@@ -1,8 +1,27 @@
-# Git favorite alias
+# Git Configuration Script
 
-You can run script `git-config.sh` for set `user.name`, `user.email` and set aliases for base command.
+This script automates the setup of global Git settings, such as the username and email, and also adds or updates custom aliases for Git commands.
 
-If you only need some commands, you can copy them from the text below and run them manually.
+You can set or update username, email and aliases for git command.
+
+## Using
+
+1. Download script
+2. Make the script executable
+   
+```bash
+   chmod +x git_config.sh
+```
+
+3. Run script
+   
+```bash
+   ./git_config.sh
+```
+
+## Aliases list
+
+`If you only need some commands, you can copy them from the text below and run them manually.`
 
 ### checkout to master
 ```bash
