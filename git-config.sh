@@ -1,43 +1,32 @@
 #!/bin/bash
 
-current_user=$(git config user.name)
+get_and_set_config() {
+    local config_key=$1
+    local prompt_message=$2
+    local success_message=$3
 
-if [ -z "$current_user" ]; then
-    echo "Git username is not set."
-else
-    echo "Current username is: $current_user"
-fi
+    local current_value=$(git config $config_key)
 
-read -p "Do you want to change the git username? (confirm/n): " answer
+    if [ -z "$current_value" ]; then
+        echo "$prompt_message is not set."
+    else
+        echo "Current $prompt_message is: $current_value"
+    fi
 
-if [ "$answer" == "confirm" ]; then
-    read -p "Write new username: " new_user
-    git config --global user.name "$new_user"
-    echo "Git username successfully changed to: $new_user"
-else
-    echo "Git username remains unchanged."
-fi
+    read -p "Do you want to set or change the git $prompt_message? (confirm/n): " answer
 
-current_email=$(git config user.email)
+    if [ "$answer" == "confirm" ]; then
+        read -p "Write $prompt_message: " new_value
+        git config --global $config_key "$new_value"
+        echo "$success_message to: $new_value"
+    else
+        echo "Git $prompt_message remains unchanged."
+    fi
+}
 
-if [ -z "$current_email" ]; then
-    echo "Git email is not set."
-else
-    echo "Current email is: $current_email"
-fi
+get_and_set_config "user.name" "username" "Git username successfully set"
+get_and_set_config "user.email" "email" "Git email successfully set"
 
-read -p "Do you want to change the git email? (confirm/n): " answer_email
-
-if [ "$answer_email" == "confirm" ]; then
-    read -p "Write new email: " new_email
-    git config --global user.email "$new_email"
-    echo "Git email successfully changed to: $new_email"
-else
-    echo "Git email remains unchanged."
-fi
-
-
-# Define aliases here with ":" separator
 ALIASES=(
 "cm:checkout master"
 "c:checkout"
@@ -47,16 +36,17 @@ ALIASES=(
 "ra:rebase --abort"
 )
 
-for ALIAS in "${ALIASES[@]}"; do
-    IFS=":" read -r alias_key alias_value <<< "$ALIAS"
-    
-    EXISTING_ALIAS=$(git config --get alias.$alias_key)
+set_git_aliases() {
+    local alias_key=$1
+    local alias_value=$2
 
-    if [ -n "$EXISTING_ALIAS" ]; then
-        if [ "$EXISTING_ALIAS" != "$alias_value" ]; then
-            echo "Alias exist with value '$EXISTING_ALIAS'. Update alias to '$alias_value'? (confirm/n)"
-            read -r REPLACE
-            if [ "$REPLACE" == "confirm" ]; then
+    local existing_alias=$(git config --get alias.$alias_key)
+
+    if [ -n "$existing_alias" ]; then
+        if [ "$existing_alias" != "$alias_value" ]; then
+            echo "Alias '$alias_key' exists with value '$existing_alias'. Update alias to '$alias_value'? (confirm/n)"
+            read -r replace
+            if [ "$replace" == "confirm" ]; then
                 git config --global alias.$alias_key "$alias_value"
                 echo "Alias '$alias_key' updated."
             else
@@ -65,18 +55,22 @@ for ALIAS in "${ALIASES[@]}"; do
         fi
     else
         git config --global alias.$alias_key "$alias_value"
-        echo "Alias '$alias_key' successful added."
+        echo "Alias '$alias_key' successfully added."
     fi
+}
+
+for alias in "${ALIASES[@]}"; do
+    IFS=":" read -r alias_key alias_value <<< "$alias"
+    set_git_aliases "$alias_key" "$alias_value"
 done
 
-
-# show updated configuration
 user_name=$(git config user.name)
 user_mail=$(git config user.email)
-    echo "_________ You configuration ___________
+
+echo "_________ Your configuration ___________
 
 name: $user_name
 email: $user_mail
 
 ALIAS LIST:"
-    git config --get-regexp alias
+git config --get-regexp alias
